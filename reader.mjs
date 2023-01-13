@@ -37,6 +37,7 @@ const encryptedPassword = beePair.value
 const encryptionKey = encryptionKeyFromMnemonic(mnemonic)
 const decryptedPassword = decryptString(encryptionKey, encryptedPassword)
 
+console.log('\n')
 console.log('Mnemonic: ', mnemonic)
 console.log('Product: ', product)
 console.log('Encrypted password: ', encryptedPassword)
