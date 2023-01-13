@@ -48,7 +48,7 @@ export function randPassword(letters, numbers, either) {
   }).concat().join('').split('')).join('')
 }
 
-export function encryptionKeyFromMnemonic(mnemonic) {
+export function keyFromMnemonic(mnemonic) {
   var seed = bip39.mnemonicToSeedSync(mnemonic).toString('hex')
   return crypto.scryptSync(seed, "salt", 24)
 }

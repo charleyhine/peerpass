@@ -1,4 +1,4 @@
-import { prompt, encryptionKeyFromMnemonic, decryptString } from "./common.mjs";
+import { prompt, keyFromMnemonic, decryptString } from "./common.mjs";
 import bip39 from 'bip39'
 import Hyperswarm from 'hyperswarm'
 import Corestore from 'corestore'
@@ -37,7 +37,7 @@ if (!beePair) {
 }
 
 const encryptedPassword = beePair.value
-const encryptionKey = encryptionKeyFromMnemonic(mnemonic)
+const encryptionKey = keyFromMnemonic(mnemonic)
 const decryptedPassword = decryptString(encryptionKey, encryptedPassword)
 
 console.log('\n')
