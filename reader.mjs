@@ -32,6 +32,11 @@ if (!bip39.validateMnemonic(mnemonic)) {
 const product = await prompt("What's the product or site you'd like the password for?\n")
 
 const beePair = await bee.get(product)
+if (!beePair) {
+  console.log('product not found')
+  process.exit()
+}
+
 const encryptedPassword = beePair.value
 
 const encryptionKey = encryptionKeyFromMnemonic(mnemonic)
