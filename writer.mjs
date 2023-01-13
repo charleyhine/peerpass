@@ -42,8 +42,9 @@ const encryptedPassword = encryptString(encryptionKey, password)
 
 await bee.put(product, encryptedPassword)
 
-console.log('Mnemonic: ', mnemonic)
-console.log('Product: ', product)
-console.log('Password: ', password)
-console.log('Encrypted password: ', encryptedPassword)
+console.log('\n')
+console.log('Mnemonic:', mnemonic)
+console.log('Product:', product)
+console.log('Password:', password)
+console.log('Encrypted password:', encryptedPassword)
 console.log('Discovery key:', b4a.toString(core.key, 'hex'))
