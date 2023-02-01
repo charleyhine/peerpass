@@ -8,7 +8,11 @@ const corestore = new Corestore("./writer-storage");
 
 const hyperswarm = new Hyperswarm();
 goodbye(() => hyperswarm.destroy());
-hyperswarm.on("connection", (conn) => corestore.replicate(conn));
+hyperswarm.on("connection", (conn) => {
+  console.log('connection!!!')
+  
+  return corestore.replicate(conn)
+});
 
 const hypercore1 = corestore.get({ name: "peerpass-core" });
 const bee = new Hyperbee(hypercore1, {
@@ -20,6 +24,7 @@ await hypercore1.ready();
 hyperswarm.join(hypercore1.discoveryKey);
 
 await bee.put("google", "test_value");
+await bee.put("amazon", "test_value");
 
 console.log({
   // core: hypercore1,
