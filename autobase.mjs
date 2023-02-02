@@ -46,8 +46,8 @@ await autobee.put('test_key', 'test_value')
 // IDEAL PROOF OF CONCEPT
 // 1. user opens desktop app and adds new password_1
 // 2. user opens phone, phone can read and download password_1
-// user closes desktop connection, phone can access password_1
-// user adds password_2 to the phone
-// user adds password_2 to the desktop (offline)
-// user desktop goes online
-// user can access latest password_2 (created on Desktop) from their phone
+// 3. user closes desktop connection, phone can access password_1
+// 4. user adds password_2 to the phone
+// 5. user adds password_2 to the desktop (offline)
+// 6. user desktop goes online
+// 7. user can access latest password_2 (created on Desktop) from their phone
