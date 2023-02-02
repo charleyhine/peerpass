@@ -27,9 +27,8 @@ await hypercore.ready()
 // flush() will wait until *all* discoverable peers have been connected to
 // It might take a while, so don't await it
 // Instead, use core.findingPeers() to mark when the discovery process is completed
-const foundPeers = corestore.findingPeers()
 hyperswarm.join(hypercore.discoveryKey)
-hyperswarm.flush().then(() => foundPeers())
+hyperswarm.flush().then(() => corestore.findingPeers())
 
 // Wait for the core to try and find a signed update to its length
 // Does not download any data from peers except for proof of the new core length
@@ -41,30 +40,24 @@ const hyperbee = new Hyperbee(hypercore, {
   valueEncoding: 'utf-8',
 })
 
-// read the full core
-const fullStream = hypercore.createReadStream()
-for await (const data of fullStream) {
-  console.log('data:', data)
+let version = 0
+console.log(hyperbee.version)
+setInterval(() => {
+  if (hyperbee.version > version) {
+    console.log(hyperbee.version)
+    version = hyperbee.version
+
+    logReadStream()
+
+    // const snapshot = hyperbee.snapshot()
+    // console.log({ snapshot })
+  }
+}, 500)
+
+async function logReadStream() {
+  const db = {}
+  for await (const { key, value } of hyperbee.createReadStream()) {
+    db[key?.trim()] = value?.trim()
+  }
+  console.log({ db })
 }
-
-// let version = 0
-// console.log(hyperbee.version)
-// setInterval(() => {
-//   if (hyperbee.version > version) {
-//     console.log(hyperbee.version)
-//     version = hyperbee.version
-
-//     logReadStream()
-
-//     // const snapshot = hyperbee.snapshot()
-//     // console.log({ snapshot })
-//   }
-// }, 500)
-
-// async function logReadStream() {
-//   const db = {}
-//   for await (const { key, value } of hyperbee.createReadStream()) {
-//     db[key?.trim()] = value?.trim()
-//   }
-//   console.log({ db })
-// }

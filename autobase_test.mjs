@@ -40,8 +40,19 @@ const autobee = new Autobee(autobase)
 
 await autobee.put('test_key', 'test_value')
 
-// const storedEntry = await autobee.get('test_key')
-// console.log({ storedEntry })
+//const autobaseView = autobase.view
+//await autobaseView.ready()
+
+//await autobaseView.update()
+
+//console.log({ autobaseView })
+
+//await autobee.bee.update()
+
+//const storedEntry = await autobee.get('test_key')
+//console.log({ storedEntry })
+
+console.log(crypto.randomBytes(32))
 
 // IDEAL PROOF OF CONCEPT
 // 1. user opens desktop app and adds new password_1
@@ -51,3 +62,10 @@ await autobee.put('test_key', 'test_value')
 // 5. user adds password_2 to the desktop (offline)
 // 6. user desktop goes online
 // 7. user can access latest password_2 (created on Desktop) from their phone
+// 8. user buys a laptop and adds their 12-word phrase + local password
+// 9. laptop recieves all existing entries from desktop and mobile devices
+
+// ARCHITECTURE PROPOSAL
+// Each device has a Corestore that manages all vaults created or imported.
+// Each vault is a Hyperbee (which is a Hypercore). Hypercore name could be `(#device_id}-{#vault_id}`.
+// Each device fetches the network for changes
