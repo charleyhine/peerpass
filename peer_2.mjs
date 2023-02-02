@@ -3,13 +3,12 @@ import Corestore from 'corestore'
 import Hyperbee from 'hyperbee'
 import goodbye from 'graceful-goodbye'
 import b4a from 'b4a'
-import { Node } from 'hyperbee/lib/messages.js'
 
 const charleyHexDiscoveryKey = '9dd05e8210a71cd195e349c5c0fcbf4d68ec96b5596474c6b3767ba4db3f64e2'
 
 // Corestore is a Hypercore factory
 // create a corestore instance with the given location
-const corestore = new Corestore('./reader-storage')
+const corestore = new Corestore('./temp/peer_2')
 
 // Hyperswarm allows you to find and connect to peers announcing a common 'topic'
 const hyperswarm = new Hyperswarm()
@@ -42,24 +41,30 @@ const hyperbee = new Hyperbee(hypercore, {
   valueEncoding: 'utf-8',
 })
 
-let version = 0
-console.log(hyperbee.version)
-setInterval(() => {
-  if (hyperbee.version > version) {
-    console.log(hyperbee.version)
-    version = hyperbee.version
-
-    logReadStream()
-
-    // const snapshot = hyperbee.snapshot()
-    // console.log({ snapshot })
-  }
-}, 500)
-
-async function logReadStream() {
-  const db = {}
-  for await (const { key, value } of hyperbee.createReadStream()) {
-    db[key?.trim()] = value?.trim()
-  }
-  console.log({ db })
+// read the full core
+const fullStream = hypercore.createReadStream()
+for await (const data of fullStream) {
+  console.log('data:', data)
 }
+
+// let version = 0
+// console.log(hyperbee.version)
+// setInterval(() => {
+//   if (hyperbee.version > version) {
+//     console.log(hyperbee.version)
+//     version = hyperbee.version
+
+//     logReadStream()
+
+//     // const snapshot = hyperbee.snapshot()
+//     // console.log({ snapshot })
+//   }
+// }, 500)
+
+// async function logReadStream() {
+//   const db = {}
+//   for await (const { key, value } of hyperbee.createReadStream()) {
+//     db[key?.trim()] = value?.trim()
+//   }
+//   console.log({ db })
+// }

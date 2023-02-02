@@ -4,15 +4,11 @@ import Corestore from 'corestore'
 import Hyperbee from 'hyperbee'
 import b4a from 'b4a'
 
-const corestore = new Corestore('./writer-storage')
+const corestore = new Corestore('./temp/peer_1')
 
 const hyperswarm = new Hyperswarm()
 goodbye(() => hyperswarm.destroy())
-hyperswarm.on('connection', (conn) => {
-  console.log('connection!!!')
-
-  return corestore.replicate(conn)
-})
+hyperswarm.on('connection', (conn) => corestore.replicate(conn))
 
 const hypercore1 = corestore.get({ name: 'peerpass-core' })
 
@@ -24,10 +20,7 @@ const bee = new Hyperbee(hypercore1, {
 await hypercore1.ready()
 hyperswarm.join(hypercore1.discoveryKey)
 
-// await bee.put('google', 'test_value')
-// await bee.put('amazon', 'test_value')
-// await bee.put('jazz', 'test_value')
-// await bee.put('jones', 'test_value')
+await bee.put('google', 'test_value')
 
 // Do a single Hyperbee.get for every line of stdin data
 // Each `get` will only download the blocks necessary to satisfy the query
