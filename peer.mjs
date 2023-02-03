@@ -63,7 +63,7 @@ async function processConnectionMessage(data) {
   if (!isJsonString(data)) return
   let json = JSON.parse(data)
   if (!json.remoteHypercoreKey) return
-  console.log(`received: ${json}`)
+  console.log(`received: ${data}`)
 
   // receive hypercore discovery key
   let remoteHypercore = corestore.get({ key: b4a.from(json.remoteHypercoreKey, 'hex') })
