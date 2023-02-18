@@ -8,7 +8,7 @@ import { Node } from 'hyperbee/lib/messages.js'
 
 // DESKTOP
 const corestore1 = new Corestore('./temp/desktop-storage')
-const hypercore1 = corestore1.get({ name: 'pearpass' })
+const hypercore1 = corestore1.get({ name: 'pearpass-1' })
 const hyperbee1 = new Hyperbee(hypercore1, {
   keyEncoding: 'utf-8',
   valueEncoding: 'utf-8',
@@ -16,56 +16,35 @@ const hyperbee1 = new Hyperbee(hypercore1, {
 
 // MOBILE
 const corestore2 = new Corestore('./temp/mobile-storage')
-const hypercore2 = corestore2.get({ name: 'pearpass' })
+const hypercore2 = corestore2.get({ name: 'pearpass-2' })
 const hyperbee2 = new Hyperbee(hypercore2, {
   keyEncoding: 'utf-8',
   valueEncoding: 'utf-8',
 })
 
-// LOCAL
-const corestore3 = new Corestore('./temp/local-storage')
-const hypercore3 = corestore3.get({ name: 'pearpass' })
-const hyperbee3 = new Hyperbee(hypercore3, {
+// // LOCAL
+// const corestore3 = new Corestore('./temp/local-storage')
+// const hypercore3 = corestore3.get({ name: 'pearpass' })
+// const hyperbee3 = new Hyperbee(hypercore3, {
+//   keyEncoding: 'utf-8',
+//   valueEncoding: 'utf-8',
+// })
+
+const autobase = new Autobase({
+  inputs: [hypercore1],
+  localInput: hypercore1,
+})
+
+const autobee = new Autobee(autobase, {
   keyEncoding: 'utf-8',
   valueEncoding: 'utf-8',
 })
 
-const autobase = new Autobase({
-  inputs: [hypercore1, hypercore2, hypercore3],
-  localInput: hypercore3,
-  localOutput: hypercore3,
-})
-
-const autobee = new Autobee(autobase)
+await autobase.addInput(hypercore2)
 
 await autobee.put('test_key', 'test_value')
+await autobee.put('test_key2', 'test_value2')
+await autobee.put('test_key3', 'bangs')
 
-//const autobaseView = autobase.view
-//await autobaseView.ready()
-
-//await autobaseView.update()
-
-//console.log({ autobaseView })
-
-//await autobee.bee.update()
-
-//const storedEntry = await autobee.get('test_key')
-//console.log({ storedEntry })
-
-console.log(crypto.randomBytes(32))
-
-// IDEAL PROOF OF CONCEPT
-// 1. user opens desktop app and adds new password_1
-// 2. user opens phone, phone can read and download password_1
-// 3. user closes desktop connection, phone can access password_1
-// 4. user adds password_2 to the phone
-// 5. user adds password_2 to the desktop (offline)
-// 6. user desktop goes online
-// 7. user can access latest password_2 (created on Desktop) from their phone
-// 8. user buys a laptop and adds their 12-word phrase + local password
-// 9. laptop recieves all existing entries from desktop and mobile devices
-
-// ARCHITECTURE PROPOSAL
-// Each device has a Corestore that manages all vaults created or imported.
-// Each vault is a Hyperbee (which is a Hypercore). Hypercore name could be `(#device_id}-{#vault_id}`.
-// Each device fetches the network for changes
+const storedEntry = await autobee.get('test_key3')
+console.log({ storedEntry })

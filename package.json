@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "autobase": "^1.0.0-alpha.8",
+    "autobase": "https://github.com/holepunchto/autobase.git",
     "b4a": "^1.6.1",
     "bip39": "^3.0.4",
     "corestore": "^6.4.1",
